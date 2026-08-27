@@ -1,13 +1,13 @@
 ---
 name: gen-mobile-test
-description: Generate one Kotlin/JUnit 5 Appium test from one TestOps-style Test Case and its human-approved automation_plan.md in this repository. Use when asked to generate or cover one mobile Test Case. Follow the pages-to-actions-to-tests architecture, verified product locators and Allure conventions; never use for API tests, coverage planning, product fixes or open-ended repair.
+description: Generate one Kotlin/JUnit 5 Appium test from one TestOps-style Test Case and its validated automation_plan.md in this repository. Use when asked to generate or cover one mobile Test Case. Follow the pages-to-actions-to-tests architecture, verified product locators and Allure conventions; never use for API tests, coverage planning, product fixes or open-ended repair.
 ---
 
 # Generate a mobile test
 
 ## Purpose
 
-Create one verified Appium test from one approved mobile scenario. Use the
+Create one verified Appium test from one validated mobile scenario. Use the
 Test Case for expected behavior, the automation plan for design decisions and
 current repository sources for implementation facts.
 
@@ -16,7 +16,7 @@ current repository sources for implementation facts.
 | Input | Requirement |
 |---|---|
 | Test Case | One case with preconditions, actions and expected results |
-| Plan | Required after the coverage preflight confirms a gap; human-approved `automation_plan.md` created from `automation_plan.mobile.md.template` for this Test Case |
+| Plan | Required after the coverage preflight confirms a gap; `automation_plan.md` created from `automation_plan.mobile.md.template` for this Test Case and accepted by the automated validator |
 
 Use the complete Test Case text supplied by the task. If the task supplies a
 case file, read the whole file because its header may define test data. Do not
@@ -35,11 +35,12 @@ context:
    state that no duplicate will be generated and report that no files changed.
 
 A duplicate-coverage stop does not require an automation plan. When the
-preflight confirms a coverage gap, require the approved plan. If the plan is
-missing, unapproved, based on the wrong template or describes another Test
-Case, stop and request the correct approved plan. Drafting or redesigning the
-plan is a separate planning task. Human approval may be supplied by the current
-task or review handoff; the drafting agent does not approve its own plan.
+preflight confirms a coverage gap, require a plan that passed automated
+validation. If the plan is missing, failed validation, is based on the wrong
+template or describes another Test Case, stop and request a corrected plan.
+Drafting or redesigning the plan is a separate planning task. The validation
+result may be supplied by the current task or lesson handoff; separate human
+approval is not required.
 
 ## Required context
 
@@ -64,7 +65,7 @@ source documents; do not restate them in this skill.
 1. Verify plan citations against the nearest test, pages, actions, locators
    and test data.
 2. Read product UI code only to confirm existing testTags.
-3. Confirm that every planned file is permitted by the approved plan and
+3. Confirm that every planned file is permitted by the validated plan and
    repository policy.
 4. Apply the assertion rules below.
 
@@ -73,7 +74,7 @@ present. Do not invent or remap the ID during generation.
 
 Stop without editing when any condition applies:
 
-- the plan is missing, unapproved or inconsistent with the Test Case;
+- the plan is missing, failed automated validation or is inconsistent with the Test Case;
 - the plan relies on an existing repository path, symbol, locator or value
   that current sources do not support;
 - the Test Case combines behaviors that require separate scenarios;
@@ -82,17 +83,17 @@ Stop without editing when any condition applies:
 Return the finding to the plan owner. Do not redesign, split or relabel the
 scenario during generation.
 
-The approved plan may introduce a new action-layer method or wait condition
+The validated plan may introduce a new action-layer method or wait condition
 when the Test Case requires it, current sources contain no equivalent and the
-change stays within the approved test-layer files. Never invent a product
+change stays within the validated test-layer files. Never invent a product
 locator. A locator for an existing UI element must use its verified current
 product `testTag`. A locator used only to assert that a removed element stays
-absent must be explicitly required by the approved plan and supported by the
+absent must be explicitly required by the validated plan and supported by the
 repository's migration contract.
 
 ## Assertion rules
 
-- Map every assertion to one approved expected result.
+- Map every assertion to one validated expected result.
 - Assert exact copy or test-data identity only when the Test Case requires it.
 - Use an observable result that fails when the behavior named in the title
   breaks.
