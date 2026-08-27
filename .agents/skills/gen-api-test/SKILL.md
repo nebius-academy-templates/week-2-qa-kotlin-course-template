@@ -1,6 +1,6 @@
 ---
 name: gen-api-test
-description: Generate one Kotlin/JUnit 5 REST Assured API test from one human-approved
+description: Generate one Kotlin/JUnit 5 REST Assured API test from one validated
     automation_plan.md and the relevant OpenAPI operation in this repository. Use when asked to generate or cover
     one API scenario. Follow the rule/client/model/tests/testdata architecture
     and verify exact response behavior; never use for Appium tests, backend fixes or open-ended repair.
@@ -10,7 +10,7 @@ description: Generate one Kotlin/JUnit 5 REST Assured API test from one human-ap
 
 ## Purpose
 
-Create one verified black-box API test from one approved scenario. Treat
+Create one verified black-box API test from one validated scenario. Treat
 OpenAPI as the specified contract and a fresh response as runtime evidence.
 Report any disagreement; do not rewrite either source.
 
@@ -19,7 +19,7 @@ Report any disagreement; do not rewrite either source.
 | Input | Requirement |
 |---|---|
 | Test Case | One API behavior with explicit preconditions, request data and expected results |
-| Plan | Required after the coverage preflight confirms a gap; human-approved `automation_plan.md` created from `automation_plan.api.md.template` for this Test Case |
+| Plan | Required after the coverage preflight confirms a gap; `automation_plan.md` created from `automation_plan.api.md.template` for this Test Case and accepted by the automated validator |
 | Contract | Relevant operation from `fake-api/openapi.yaml` |
 
 Use the complete Test Case text supplied by the task. Do not assume that a case
@@ -38,11 +38,12 @@ context:
    state that no duplicate will be generated and report that no files changed.
 
 A duplicate-coverage stop does not require an automation plan. When the
-preflight confirms a coverage gap, require the approved plan. If the plan is
-missing, unapproved, based on the wrong template or describes another Test
-Case, stop and request the correct approved plan. Drafting or redesigning the
-plan is a separate planning task. Human approval may be supplied by the current
-task or review handoff; the drafting agent does not approve its own plan.
+preflight confirms a coverage gap, require a plan that passed automated
+validation. If the plan is missing, failed validation, is based on the wrong
+template or describes another Test Case, stop and request a corrected plan.
+Drafting or redesigning the plan is a separate planning task. The validation
+result may be supplied by the current task or lesson handoff; separate human
+approval is not required.
 
 ## Required context
 
@@ -63,7 +64,7 @@ do not restate them in this skill.
 
 1. Verify every `automation_plan.md` claim against the contract and current
    repository files.
-2. Confirm that every planned file is permitted by the approved plan and
+2. Confirm that every planned file is permitted by the validated plan and
    repository policy.
 3. Apply the assertion rules below.
 

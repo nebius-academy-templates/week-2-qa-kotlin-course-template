@@ -7,8 +7,8 @@
 
 - Test Case: `<TEST_CASE_ID>` — `<title>`
 - Artifact status: `complete`
-- Approval: recorded outside this file; the drafting agent does not approve its own plan.
-- Generation gate: use this plan only after human approval.
+- Automated validation: recorded outside this file by the lesson checker.
+- Generation gate: use this plan only after automated validation passes.
 
 ## Test contract
 
@@ -48,7 +48,7 @@ use screen coordinates as locators or interaction targets.
 |---|---|
 | `<exact Appium test-layer path>` | `<required change>` |
 
-Any additional file requires a revised plan and renewed approval.
+Any additional file requires a revised plan and another automated validation pass.
 
 ## Risks and stop conditions
 
