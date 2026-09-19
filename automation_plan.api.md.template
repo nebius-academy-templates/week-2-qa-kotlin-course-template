@@ -7,7 +7,7 @@
 
 - Test Case: `<TEST_CASE_ID>` — `<title>`
 - Artifact status: `complete`
-- Automated validation: recorded outside this file by the lesson checker.
+- Automated validation: `<current Test Case, OpenAPI operation and repository sources checked by gen-api-test>`
 - Generation gate: use this plan only after automated validation passes.
 
 ## Test contract

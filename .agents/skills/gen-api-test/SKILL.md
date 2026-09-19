@@ -1,7 +1,7 @@
 ---
 name: gen-api-test
-description: Generate one Kotlin/JUnit 5 REST Assured API test from one validated
-    automation_plan.md and the relevant OpenAPI operation in this repository. Use when asked to generate or cover
+description: Create or validate automation_plan.md and generate one Kotlin/JUnit 5 REST Assured API test
+    from the relevant OpenAPI operation in this repository. Use when asked to plan, generate or cover
     one API scenario. Follow the rule/client/model/tests/testdata architecture
     and verify exact response behavior; never use for Appium tests, backend fixes or open-ended repair.
 ---
@@ -10,8 +10,9 @@ description: Generate one Kotlin/JUnit 5 REST Assured API test from one validate
 
 ## Purpose
 
-Create one verified black-box API test from one validated scenario. Treat
-OpenAPI as the specified contract and a fresh response as runtime evidence.
+Create or validate the automation plan, then generate one verified black-box
+API test from the supplied scenario. Treat OpenAPI as the specified contract
+and a fresh response as runtime evidence.
 Report any disagreement; do not rewrite either source.
 
 ## Required inputs
@@ -19,7 +20,7 @@ Report any disagreement; do not rewrite either source.
 | Input | Requirement |
 |---|---|
 | Test Case | One API behavior with explicit preconditions, request data and expected results |
-| Plan | Required after the coverage preflight confirms a gap; `automation_plan.md` created from `automation_plan.api.md.template` for this Test Case and accepted by the automated validator |
+| Plan | Required after the coverage preflight confirms a gap; create or validate `automation_plan.md` from `automation_plan.api.md.template` for this Test Case |
 | Contract | Relevant operation from `fake-api/openapi.yaml` |
 
 Use the complete Test Case text supplied by the task. Do not assume that a case
@@ -27,8 +28,8 @@ exists under `fixtures/`.
 
 ## Coverage preflight
 
-Run this preflight before validating the plan or loading implementation-specific
-context:
+Run this preflight before creating or validating the plan or loading
+implementation-specific context:
 
 1. Search current API coverage and run the `@DisplayName|@AllureId` inventory
    command from `AGENTS.md`; there is no registry file.
@@ -38,12 +39,8 @@ context:
    state that no duplicate will be generated and report that no files changed.
 
 A duplicate-coverage stop does not require an automation plan. When the
-preflight confirms a coverage gap, require a plan that passed automated
-validation. If the plan is missing, failed validation, is based on the wrong
-template or describes another Test Case, stop and request a corrected plan.
-Drafting or redesigning the plan is a separate planning task. The validation
-result may be supplied by the current task or lesson handoff; separate human
-approval is not required.
+preflight confirms a coverage gap, read the required context and create or
+validate the plan before changing test code.
 
 ## Required context
 
@@ -59,6 +56,28 @@ table without reading the file again. Before planning or editing, read:
 Use these sources for layer ownership, black-box boundaries, test metadata,
 formatting and execution commands. Keep those rules in their source documents;
 do not restate them in this skill.
+
+## Plan creation and validation
+
+Use `automation_plan.api.md.template` as the required schema. Preserve its
+sections and limits; replace every placeholder and remove unused rows.
+
+1. Create `automation_plan.md` when missing. If an existing plan describes
+   another Test Case, replace it only when the request authorizes replacement.
+2. Validate the preconditions, request, expected results, OpenAPI operation,
+   repository citations, allowed files, stop conditions and verification
+   commands against the supplied case and current sources. Correct a stale
+   claim only when the evidence supports one unambiguous replacement.
+3. Record the validation in the plan only after every claim is supported.
+   If evidence is missing or conflicting, report the unresolved item and stop
+   before test-code changes. Do not redesign the case or expand its file scope.
+
+When a request authorizes plan creation or correction, including the lesson
+2.5 planning dry run, a planning-only invocation stops after the plan without
+changing test code or running tests. For an explicit read-only or no-file-changes
+request, report validation findings without writing the plan. For generation,
+continue with the validated plan. This skill performs the API plan validation;
+no separate plan approval or LMS checker is required.
 
 ## Pre-generation checks
 

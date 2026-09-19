@@ -1,22 +1,23 @@
 ---
 name: gen-mobile-test
-description: Generate one Kotlin/JUnit 5 Appium test from one TestOps-style Test Case and its validated automation_plan.md in this repository. Use when asked to generate or cover one mobile Test Case. Follow the pages-to-actions-to-tests architecture, verified product locators and Allure conventions; never use for API tests, coverage planning, product fixes or open-ended repair.
+description: Create or validate automation_plan.md and generate one Kotlin/JUnit 5 Appium test from one TestOps-style Test Case in this repository. Use when asked to plan, generate or cover one mobile Test Case. Follow the pages-to-actions-to-tests architecture, verified product locators and Allure conventions; never use for API tests, product fixes or open-ended repair.
 ---
 
 # Generate a mobile test
 
 ## Purpose
 
-Create one verified Appium test from one validated mobile scenario. Use the
-Test Case for expected behavior, the automation plan for design decisions and
-current repository sources for implementation facts.
+Create or validate the automation plan, then generate one verified Appium test
+from the supplied mobile scenario. Use the Test Case for expected behavior,
+the automation plan for design decisions and current repository sources for
+implementation facts.
 
 ## Required inputs
 
 | Input | Requirement |
 |---|---|
 | Test Case | One case with preconditions, actions and expected results |
-| Plan | Required after the coverage preflight confirms a gap; `automation_plan.md` created from `automation_plan.mobile.md.template` for this Test Case and accepted by the automated validator |
+| Plan | Required after the coverage preflight confirms a gap; create or validate `automation_plan.md` from `automation_plan.mobile.md.template` for this Test Case; the lesson 2.3 LMS checker must return `PASSED` before generation in lesson 2.4 |
 
 Use the complete Test Case text supplied by the task. If the task supplies a
 case file, read the whole file because its header may define test data. Do not
@@ -24,8 +25,8 @@ assume that a case exists under `fixtures/`.
 
 ## Coverage preflight
 
-Run this preflight before validating the plan or loading implementation-specific
-context:
+Run this preflight before creating or validating the plan or loading
+implementation-specific context:
 
 1. Search current mobile coverage and run the `@DisplayName|@AllureId`
    inventory command from `AGENTS.md`; there is no registry file.
@@ -35,12 +36,8 @@ context:
    state that no duplicate will be generated and report that no files changed.
 
 A duplicate-coverage stop does not require an automation plan. When the
-preflight confirms a coverage gap, require a plan that passed automated
-validation. If the plan is missing, failed validation, is based on the wrong
-template or describes another Test Case, stop and request a corrected plan.
-Drafting or redesigning the plan is a separate planning task. The validation
-result may be supplied by the current task or lesson handoff; separate human
-approval is not required.
+preflight confirms a coverage gap, read the required context and create or
+validate the plan before changing test code.
 
 ## Required context
 
@@ -60,6 +57,29 @@ Use these sources for layer ownership, locator policy, start state, test
 metadata, waits, formatting and execution commands. Keep those rules in their
 source documents; do not restate them in this skill.
 
+## Plan creation and validation
+
+Use `automation_plan.mobile.md.template` as the required schema. Preserve its
+sections and limits; replace every placeholder and remove unused rows.
+
+1. Create `automation_plan.md` when missing. If an existing plan describes
+   another Test Case, replace it only when the request authorizes replacement.
+2. Validate the preconditions, test data, step-to-action mapping, locators,
+   observable expected results, repository citations, allowed files, stop
+   conditions and runner command against the supplied case and current sources.
+   Correct a stale claim only when the evidence supports one unambiguous
+   replacement. If evidence is missing or conflicting, report the unresolved
+   item and stop before test-code changes.
+3. Leave a complete plan for the lesson 2.3 LMS checker. Do not write the
+   checker's verdict or claim that source validation replaces its `PASSED`
+   result. The lesson handoff must supply that result before lesson 2.4
+   generation; a revised plan requires another checker pass.
+
+For a planning-only request, stop after creating or validating the plan without
+changing test code or running tests. For a read-only request, report the
+assessment without changing files. Generate only within the validated plan's
+file scope; do not redesign, split or relabel the scenario.
+
 ## Pre-generation checks
 
 1. Verify plan citations against the nearest test, pages, actions, locators
@@ -72,9 +92,10 @@ source documents; do not restate them in this skill.
 Use the `@AllureId` assigned by the Test Case and verify that it is not already
 present. Do not invent or remap the ID during generation.
 
-Stop without editing when any condition applies:
+Stop before test-code changes when any condition applies:
 
-- the plan is missing, failed automated validation or is inconsistent with the Test Case;
+- the plan remains incomplete or inconsistent with the Test Case after validation,
+  or the required LMS checker result is missing or failed;
 - the plan relies on an existing repository path, symbol, locator or value
   that current sources do not support;
 - the Test Case combines behaviors that require separate scenarios;
